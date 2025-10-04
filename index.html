@@ -118,8 +118,6 @@
     const info = document.getElementById('info');
     const arContainer = document.getElementById('ar-container');
 
-    let currentScene = null; // referencia a la escena actual
-
     startBtn.addEventListener('click', () => {
       info.style.display = 'none';
       startBtn.style.display = 'none';
@@ -135,7 +133,7 @@
       const marker1 = document.createElement('a-marker');
       marker1.setAttribute('preset', 'hiro');
       const model1 = document.createElement('a-entity');
-      model1.setAttribute('gltf-model', 'models/embriologia/testiculo4.glb');
+      model1.setAttribute('gltf-model', 'models/embriologiaTesticulo2,5.glb');
       model1.setAttribute('scale', '0.5 0.5 0.5');
       model1.setAttribute('rotation', '-90 0 0');
       marker1.appendChild(model1);
@@ -157,25 +155,23 @@
 
       arContainer.innerHTML = '';
       arContainer.appendChild(scene);
-      currentScene = scene;
     });
 
     exitBtn.addEventListener('click', () => {
-      // Apagar cámara de AR.js
-      if (currentScene) {
-        const arSystem = currentScene.systems["arjs"];
-        if (arSystem && arSystem._arSession && arSystem._arSession.arSource && arSystem._arSession.arSource.videoStream) {
-          let tracks = arSystem._arSession.arSource.videoStream.getTracks();
-          tracks.forEach(track => track.stop()); // detener cámara
-        }
-      }
-
       arContainer.style.display = 'none';
       arContainer.innerHTML = '';
       info.style.display = 'block';
       startBtn.style.display = 'inline-block';
       exitBtn.style.display = 'none';
-      currentScene = null;
+
+      // 🚨 APAGAR LA CÁMARA 🚨
+      const video = document.querySelector('video');
+      if (video && video.srcObject) {
+        const stream = video.srcObject;
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop()); // Detener cada track
+        video.srcObject = null;
+      }
     });
   </script>
 
