@@ -131,9 +131,9 @@
 
       // Marcador 1 - testiculo
       const marker1 = document.createElement('a-marker');
-      marker1.setAttribute('preset', 'hiro');
+      marker1.setAttribute('preset', 'kanji');
       const model1 = document.createElement('a-entity');
-      model1.setAttribute('gltf-model', 'models/gears/gears.glb');
+      model1.setAttribute('gltf-model', 'models/embriologia/testiculo4.glb');
       model1.setAttribute('scale', '0.15 0.15 0.15');
       model1.setAttribute('rotation', '-90 0 0');
       marker1.appendChild(model1);
@@ -141,9 +141,9 @@
 
       // Marcador 2 - gears
       const marker2 = document.createElement('a-marker');
-      marker2.setAttribute('preset', 'kanji');
+      marker2.setAttribute('preset', 'hiro');
       const model2 = document.createElement('a-entity');
-      model2.setAttribute('gltf-model', 'models/embriologia/testiculo4.glb');
+      model2.setAttribute('gltf-model', 'models/gears/gears.glb');
       model2.setAttribute('scale', '0.2 0.2 0.2');
       marker2.appendChild(model2);
       scene.appendChild(marker2);
