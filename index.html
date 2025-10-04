@@ -158,20 +158,26 @@
     });
 
     exitBtn.addEventListener('click', () => {
+      // Ocultar AR y volver a la página principal
       arContainer.style.display = 'none';
       arContainer.innerHTML = '';
       info.style.display = 'block';
       startBtn.style.display = 'inline-block';
       exitBtn.style.display = 'none';
 
-      // 🚨 APAGAR LA CÁMARA 🚨
+      // Apagar cámara
       const video = document.querySelector('video');
       if (video && video.srcObject) {
         const stream = video.srcObject;
         const tracks = stream.getTracks();
-        tracks.forEach(track => track.stop()); // Detener cada track
+        tracks.forEach(track => track.stop());
         video.srcObject = null;
       }
+
+      // 🔄 Recargar la página para forzar liberar cámara
+      setTimeout(() => {
+        window.location.reload();
+      }, 300);
     });
   </script>
 
