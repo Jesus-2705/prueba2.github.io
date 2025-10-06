@@ -84,6 +84,38 @@
       height: 500px;
       display: none;
     }
+
+    /* 🔘 Botón de salir anclado abajo a la derecha */
+    #exit-ar {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      padding: 12px 18px;
+      background-color: rgba(0, 0, 0, 0.65);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    #exit-ar:hover {
+      background-color: rgba(255, 0, 0, 0.7);
+      transform: scale(1.05);
+    }
+
+    #exit-ar svg {
+      width: 18px;
+      height: 18px;
+      fill: white;
+    }
   </style>
 
   <!-- A-Frame y AR.js -->
@@ -107,7 +139,14 @@
   </div>
 
   <button id="start-ar">Iniciar Realidad Aumentada</button>
-  <button id="exit-ar" style="display:none;">Salir de AR</button>
+
+  <!-- 🔘 Botón con ícono de salida -->
+  <button id="exit-ar">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M18.3 5.71a1 1 0 0 0-1.42 0L12 10.59 7.11 5.7a1 1 0 0 0-1.42 1.42L10.59 12l-4.9 4.89a1 1 0 0 0 1.42 1.42L12 13.41l4.89 4.9a1 1 0 0 0 1.42-1.42L13.41 12l4.89-4.89a1 1 0 0 0 0-1.4z"/>
+    </svg>
+    Salir
+  </button>
 
   <!-- Contenedor para la escena AR -->
   <div id="ar-container"></div>
@@ -121,7 +160,7 @@
     startBtn.addEventListener('click', () => {
       info.style.display = 'none';
       startBtn.style.display = 'none';
-      exitBtn.style.display = 'inline-block';
+      exitBtn.style.display = 'flex';
       arContainer.style.display = 'block';
 
       // Crear la escena AR
@@ -129,7 +168,7 @@
       scene.setAttribute('embedded', '');
       scene.setAttribute('arjs', '');
 
-      // Marcador 1 - testiculo
+      // Marcador 1 - testículo
       const marker1 = document.createElement('a-marker');
       marker1.setAttribute('preset', 'hiro');
       const model1 = document.createElement('a-entity');
@@ -139,7 +178,7 @@
       marker1.appendChild(model1);
       scene.appendChild(marker1);
 
-      // Marcador 2 - gears
+      // Marcador 2 - engranes
       const marker2 = document.createElement('a-marker');
       marker2.setAttribute('preset', 'kanji');
       const model2 = document.createElement('a-entity');
@@ -158,7 +197,6 @@
     });
 
     exitBtn.addEventListener('click', () => {
-      // Ocultar AR y volver a la página principal
       arContainer.style.display = 'none';
       arContainer.innerHTML = '';
       info.style.display = 'block';
@@ -174,7 +212,7 @@
         video.srcObject = null;
       }
 
-      // 🔄 Recargar la página para forzar liberar cámara
+      // 🔄 Recargar para asegurar liberación de cámara
       setTimeout(() => {
         window.location.reload();
       }, 300);
