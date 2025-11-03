@@ -2,113 +2,56 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Espermatogénesis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espermatogénesis AR</title>
   <style>
     body {
-      background-color: #FCF9EA;
-      color: #000;
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #FCF9EA;
+      color: #000;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      min-height: 100vh; 
+      min-height: 100vh;
       text-align: center;
-      transition: background 0.3s;
     }
-
-    .titulo-con-imagenes {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-
-    .titulo-con-imagenes img {
-      width: 120px;
-      height: auto;
-      border-radius: 12px;
-    }
-
-    h1 { font-size: 2.2em; margin: 10px 0; }
-    h2, h3 { margin: 5px 0; }
-
-    #info {
-      max-width: 800px;
-      width: 90%;
+    h1, h2, h3 { margin: 10px 0; }
+    #menu, #modelo-info { max-width: 800px; width: 90%; }
+    #menu { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 20px 0; }
+    .tarjeta {
       background: #F5D2D2;
       border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
+      padding: 15px;
+      width: 200px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-
-    p { font-size: 1em; text-align: justify; margin: 10px 0; }
-
+    .tarjeta:hover { transform: scale(1.05); box-shadow: 0 6px 16px rgba(0,0,0,0.25); }
+    .tarjeta img { width: 100%; border-radius: 8px; margin-bottom: 10px; }
+    #modelo-info { display: none; background: #F5D2D2; border-radius: 12px; padding: 20px; box-shadow: 0 6px 18px rgba(0,0,0,0.2); }
+    #modelo-info img { width: 100%; max-width: 400px; border-radius: 12px; margin-bottom: 15px; }
     button {
-      background-color: #FFBDBD;
-      color: #000;
-      border: none;
       padding: 12px 25px;
       font-size: 1.1em;
       font-weight: bold;
       border-radius: 25px;
+      border: none;
       cursor: pointer;
+      margin: 10px;
       transition: 0.3s;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      margin: 10px;
     }
-
-    button:hover { background-color: #2980b9; transform: scale(1.05); }
-
-    #ar-container { width: 100%; height: 500px; display: none; }
-
-    /* Botón de salir AR */
-    #exit-ar {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-      padding: 12px 18px;
-      background-color: rgba(0, 0, 0, 0.65);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 1em;
-      cursor: pointer;
-      backdrop-filter: blur(5px);
-      display: none;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    }
-
-    #exit-ar:hover { background-color: rgba(255, 0, 0, 0.7); }
-
-    #modelo-info {
-      display: none;
-      background: #F5D2D2;
-      border-radius: 12px;
-      padding: 20px;
-      max-width: 700px;
-      width: 90%;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-      text-align: center;
-      transition: transform 0.3s, opacity 0.3s;
-    }
-
-    #modelo-info img {
-      width: 100%;
-      max-width: 400px;
-      border-radius: 12px;
-      margin-bottom: 15px;
-    }
+    button:hover { transform: scale(1.05); }
+    #ver-ar { background: #FFBDBD; }
+    #volver-menu { background: #ccc; color: #000; }
+    #exit-ar { position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: none; padding: 12px 18px; background: rgba(0,0,0,0.65); color: #fff; border-radius: 10px; border: none; cursor: pointer; backdrop-filter: blur(5px); }
+    #ar-container { width: 100vw; height: 100vh; display: none; }
   </style>
 
-  <!-- Librerías AR -->
+  <!-- A-Frame y AR.js -->
   <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
@@ -117,39 +60,41 @@
 </head>
 <body>
 
-  <div id="info">
-    <div class="titulo-con-imagenes">
-      <img src="imagenes/medicina logo.png" alt="Logo Medicina">
-      <h1>Espermatogénesis</h1>
-      <img src="imagenes/univesidad logo.png" alt="Logo Universidad">
+  <h1>Espermatogénesis</h1>
+  <h2>Museo de Embriología - UACH</h2>
+
+  <!-- Menú de modelos -->
+  <div id="menu">
+    <div class="tarjeta" data-model="testiculo">
+      <img src="imagenes/testiculo.jpg" alt="Testículo">
+      <h3>Testículo</h3>
     </div>
-    <h2>Museo de Embriología</h2>
-    <h3>Universidad Autónoma de Chihuahua</h3>
-    <p>La embriología es el estudio del desarrollo del embrión desde la fecundación del óvulo hasta la octava semana de gestación...</p>
-    <p>Seleccione un modelo para obtener más información y verlo en AR:</p>
-    <div id="menu-modelos">
-      <button data-model="testiculo">Testículo</button>
-      <button data-model="engranes">Engranes</button>
-      <button data-model="animacion">Animación</button>
+    <div class="tarjeta" data-model="engranes">
+      <img src="imagenes/engranes.jpg" alt="Engranes">
+      <h3>Engranes</h3>
+    </div>
+    <div class="tarjeta" data-model="animacion">
+      <img src="imagenes/animacion.jpg" alt="Animación">
+      <h3>Animación</h3>
     </div>
   </div>
 
-  <!-- Tarjeta de info del modelo -->
+  <!-- Info del modelo -->
   <div id="modelo-info">
     <img id="modelo-img" src="" alt="Modelo">
     <h3 id="modelo-titulo"></h3>
     <p id="modelo-descripcion"></p>
     <button id="ver-ar">🔍 Ver en AR</button>
-    <button id="volver-menu" style="background-color:#ccc; color:#000;">Volver al menú</button>
+    <button id="volver-menu">Volver al menú</button>
   </div>
 
-  <button id="exit-ar">Salir</button>
+  <!-- AR -->
+  <button id="exit-ar">Salir AR</button>
   <div id="ar-container"></div>
 
   <script>
-    const info = document.getElementById('info');
+    const menu = document.getElementById('menu');
     const modeloInfo = document.getElementById('modelo-info');
-    const menuBtns = document.querySelectorAll("#menu-modelos button");
     const modeloTitulo = document.getElementById('modelo-titulo');
     const modeloDescripcion = document.getElementById('modelo-descripcion');
     const modeloImg = document.getElementById('modelo-img');
@@ -160,7 +105,6 @@
 
     let modeloSeleccionado = null;
 
-    // Información de los modelos
     const modelos = {
       testiculo: {
         titulo: "Modelo del Testículo",
@@ -185,34 +129,34 @@
       }
     };
 
-    // Abrir tarjeta con info
-    menuBtns.forEach(btn => {
-      btn.addEventListener("click", () => {
-        const key = btn.dataset.model;
+    // Abrir tarjeta
+    document.querySelectorAll('.tarjeta').forEach(t => {
+      t.addEventListener('click', () => {
+        const key = t.dataset.model;
         modeloSeleccionado = modelos[key];
         modeloTitulo.textContent = modeloSeleccionado.titulo;
         modeloDescripcion.textContent = modeloSeleccionado.descripcion;
         modeloImg.src = modeloSeleccionado.img;
-        info.style.display = "none";
+        menu.style.display = "none";
         modeloInfo.style.display = "block";
       });
     });
 
     // Volver al menú
-    volverMenuBtn.addEventListener("click", () => {
+    volverMenuBtn.addEventListener('click', () => {
       modeloInfo.style.display = "none";
-      info.style.display = "block";
+      menu.style.display = "flex";
     });
 
-    // Ver en AR
-    verArBtn.addEventListener("click", () => {
+    // Iniciar AR
+    verArBtn.addEventListener('click', () => {
       modeloInfo.style.display = "none";
-      exitBtn.style.display = "flex";
       arContainer.style.display = "block";
+      exitBtn.style.display = "block";
 
       const scene = document.createElement('a-scene');
       scene.setAttribute('embedded','');
-      scene.setAttribute('arjs','');
+      scene.setAttribute('arjs','sourceType: webcam; debugUIEnabled: false;');
       scene.setAttribute('gesture-detector','');
 
       const marker = document.createElement('a-marker');
@@ -244,18 +188,10 @@
 
     // Salir AR
     exitBtn.addEventListener('click', () => {
-      arContainer.style.display = 'none';
+      arContainer.style.display = "none";
+      exitBtn.style.display = "none";
       arContainer.innerHTML = '';
-      info.style.display = 'block';
-      modeloInfo.style.display = 'none';
-      exitBtn.style.display = 'none';
-
-      const video = document.querySelector('video');
-      if(video && video.srcObject){
-        const tracks = video.srcObject.getTracks();
-        tracks.forEach(track => track.stop());
-        video.srcObject = null;
-      }
+      menu.style.display = "flex";
     });
   </script>
 
