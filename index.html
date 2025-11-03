@@ -66,7 +66,7 @@
 
     #ar-container { width: 100%; height: 500px; display: none; }
 
-    /* 🔘 Botón de salir AR */
+    /* Botón de salir AR */
     #exit-ar {
       position: fixed;
       bottom: 20px;
@@ -244,4 +244,20 @@
 
     // Salir AR
     exitBtn.addEventListener('click', () => {
-      arContainer.style.display
+      arContainer.style.display = 'none';
+      arContainer.innerHTML = '';
+      info.style.display = 'block';
+      modeloInfo.style.display = 'none';
+      exitBtn.style.display = 'none';
+
+      const video = document.querySelector('video');
+      if(video && video.srcObject){
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+        video.srcObject = null;
+      }
+    });
+  </script>
+
+</body>
+</html>
