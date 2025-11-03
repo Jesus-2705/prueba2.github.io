@@ -14,7 +14,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-    min-height: auto; 
+      min-height: auto; 
       text-align: center;
     }
 
@@ -122,6 +122,10 @@
   <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
+<!-- Librerias Movimientoo -->
+  <script src="https://cdn.jsdelivr.net/gh/fcor/arjs-gestures@master/gesture-detector.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/fcor/arjs-gestures@master/gesture-handler.js"></script>
+
 </head>
 <body>
 
@@ -134,13 +138,13 @@
     </div>
     <h2>Museo de Embriología</h2>
     <h3>Universidad Autónoma de Chihuahua</h3>
-    <p>La embriología es el estudio del desarrollo de un embrión desde la fecundación del óvulo hasta la octava semana de gestación...</p>
+    <p>La embriología es el estudio del desarrollo del embrión desde la fecundación del óvulo hasta la octava semana de gestación...</p>
     <p>Con esta aplicación usted podrá obtener una experiencia de realidad aumentada donde podrá ver modelos 3D de la espermatogénesis.</p>
   </div>
 
   <button id="start-ar">Iniciar Realidad Aumentada</button>
 
-  <!-- 🔘 Botón con ícono de salida -->
+  <!-- Botón con ícono de salida -->
   <button id="exit-ar">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <path d="M18.3 5.71a1 1 0 0 0-1.42 0L12 10.59 7.11 5.7a1 1 0 0 0-1.42 1.42L10.59 12l-4.9 4.89a1 1 0 0 0 1.42 1.42L12 13.41l4.89 4.9a1 1 0 0 0 1.42-1.42L13.41 12l4.89-4.89a1 1 0 0 0 0-1.4z"/>
@@ -163,18 +167,25 @@
       exitBtn.style.display = 'flex';
       arContainer.style.display = 'block';
 
-      // Crear la escena AR
+      //  Crear la escena AR
       const scene = document.createElement('a-scene');
       scene.setAttribute('embedded', '');
       scene.setAttribute('arjs', '');
+
+      // Habilitar detección de gestos en la escena
+      scene.setAttribute('gesture-detector', '');
 
       // Marcador 1 - testículo
       const marker1 = document.createElement('a-marker');
       marker1.setAttribute('preset', 'hiro');
       const model1 = document.createElement('a-entity');
-      model1.setAttribute('gltf-model', 'models/embriologia/Testiculo45.glb');
+      model1.setAttribute('gltf-model', 'models/embriologia/transparente.glb');
       model1.setAttribute('scale', '0.2 0.2 0.2');
-      model1.setAttribute('rotation', '-90 0 0');
+      model1.setAttribute('rotation', '90 0 180');
+
+      // Habilitar gestos en el modelo
+      model1.setAttribute('gesture-handler', '');
+
       marker1.appendChild(model1);
       scene.appendChild(marker1);
 
@@ -187,8 +198,7 @@
       marker2.appendChild(model2);
       scene.appendChild(marker2);
 
-      //marcador 3 - animación
-      //crear marker 3 para animación
+      // Marcador 3 - animación
       const marker3 = document.createElement('a-marker');
       marker3.setAttribute('type', 'pattern');
       marker3.setAttribute('url', 'markers/pattern-marcaCreeper.patt');
@@ -227,9 +237,7 @@
       }
 
       // 🔄 Recargar para asegurar liberación de cámara
-      setTimeout(() => {
-        window.location.reload();
-      }, 300);
+      setTimeout(() => { window.location.reload(); }, 300);
     });
   </script>
 
