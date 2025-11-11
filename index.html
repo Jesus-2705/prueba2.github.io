@@ -240,7 +240,8 @@
     let model = document.createElement('a-entity');
 
     if (modelKey === "testiculo") {
-      marker.setAttribute('preset', 'hiro');
+      marker.setAttribute('type', 'pattern');
+      marker.setAttribute('url', 'markers/pattern-marca2.patt');
       model.setAttribute('gltf-model', 'models/embriologia/transparente.glb');
       model.setAttribute('scale', '0.2 0.2 0.2');
       model.setAttribute('rotation', '90 0 180');
