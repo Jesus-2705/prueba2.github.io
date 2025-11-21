@@ -241,13 +241,14 @@
 
     if (modelKey === "testiculo") {
       marker.setAttribute('type', 'pattern');
-      marker.setAttribute('url', 'markers/pattern-marca2.patt');
+      marker.setAttribute('url', 'markers/pattern-marcaT.patt');
       model.setAttribute('gltf-model', 'models/embriologia/transparente.glb');
       model.setAttribute('scale', '0.2 0.2 0.2');
       model.setAttribute('rotation', '90 0 180');
     }
     else if (modelKey === "engranes") {
-      marker.setAttribute('preset', 'kanji');
+      marker.setAttribute('type', 'pattern');
+      marker.setAttribute('url', 'markers/pattern-marcaE.patt');
       model.setAttribute('gltf-model', 'models/gears/gears.glb');
       model.setAttribute('scale', '0.1 0.1 0.1');
     }
