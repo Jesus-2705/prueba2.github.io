@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<link rel="stylesheet" href="style.css">
   <meta charset="UTF-8">
-  <title>Espermatogénesis</title>
+  <title>Espermatogénesis AR</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- A-Frame y AR.js -->
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/fcor/arjs-gestures@master/gesture-detector.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/fcor/arjs-gestures@master/gesture-handler.js"></script>
   <style>
     body {
       background-color: #FCF9EA;
@@ -33,16 +38,8 @@
       border-radius: 12px;
     }
 
-    h1 {
-      font-size: 2.2em;
-      color: #000;
-      margin: 10px 0;
-    }
-
-    h2, h3 {
-      margin: 5px 0;
-      color: #000;
-    }
+    h1 { font-size: 2.2em; color: #000; margin: 10px 0; }
+    h2, h3 { margin: 5px 0; color: #000; }
 
     #info {
       max-width: 800px;
@@ -54,12 +51,7 @@
       margin-bottom: 20px;
     }
 
-    p {
-      font-size: 1em;
-      text-align: justify;
-      margin: 10px 0;
-      color: #000;
-    }
+    p { font-size: 1em; text-align: justify; margin: 10px 0; color: #000; }
 
     button {
       background-color: #FFBDBD;
@@ -86,7 +78,6 @@
       display: none;
     }
 
-    /* 🔘 Botón de salir anclado abajo a la derecha */
     #exit-ar {
       position: fixed;
       bottom: 20px;
@@ -112,57 +103,25 @@
       transform: scale(1.05);
     }
 
-    #exit-ar svg {
-      width: 18px;
-      height: 18px;
-      fill: white;
-    }
+    #exit-ar svg { width: 18px; height: 18px; fill: white; }
   </style>
-
-  <!-- A-Frame y AR.js -->
-  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
-<!-- Librerias Movimientoo -->
-  <script src="https://cdn.jsdelivr.net/gh/fcor/arjs-gestures@master/gesture-detector.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/fcor/arjs-gestures@master/gesture-handler.js"></script>
-
 </head>
 <body>
 
-  <!-- Sección principal -->
-<!-- Sección principal -->
-<div id="info">
-  <div class="titulo-con-imagenes">
-    <img src="imagenes/medicina logo.png" alt="Logo Medicina">
-    <h1>Espermatogénesis</h1>
-    <img src="imagenes/univesidad logo.png" alt="Logo Universidad">
+  <div id="info">
+    <div class="titulo-con-imagenes">
+      <img src="imagenes/medicina logo.png" alt="Logo Medicina">
+      <h1>Espermatogénesis</h1>
+      <img src="imagenes/univesidad logo.png" alt="Logo Universidad">
+    </div>
+    <h2>Museo de Embriología</h2>
+    <h3>Universidad Autónoma de Chihuahua</h3>
+    <p>La embriología es el estudio del desarrollo del embrión desde la fecundación del óvulo hasta la octava semana de gestación...</p>
+    <p>Con esta aplicación usted podrá obtener una experiencia de realidad aumentada donde podrá ver modelos 3D de la espermatogénesis.</p>
+
+    <button id="start-ar">Iniciar AR</button>
   </div>
-  <h2>Museo de Embriología</h2>
-  <h3>Universidad Autónoma de Chihuahua</h3>
-  <p>La embriología es el estudio del desarrollo del embrión desde la fecundación del óvulo hasta la octava semana de gestación...</p>
-  <p>Con esta aplicación usted podrá obtener una experiencia de realidad aumentada donde podrá ver modelos 3D de la espermatogénesis.</p>
 
-  <div id="menu-modelos">
-    <h3>Seleccione un modelo para visualizar:</h3>
-    <button data-model="testiculo"> Testículo</button>
-    <button data-model="engranes"> Engranes</button>
-    <button data-model="animacion"> Animación</button>
-  </div>
-</div>
-
-<!-- Modal (ventana emergente) -->
-<div id="modal-modelo" class="modal">
-  <div class="modal-content">
-    <h2 id="modal-titulo"></h2>
-    <p id="modal-descripcion"></p>
-    <button id="start-ar">Iniciar Realidad Aumentada</button>
-    <button id="cerrar-modal">Cerrar</button>
-  </div>
-</div>
-
-
-  <!-- Botón con ícono de salida -->
   <button id="exit-ar">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <path d="M18.3 5.71a1 1 0 0 0-1.42 0L12 10.59 7.11 5.7a1 1 0 0 0-1.42 1.42L10.59 12l-4.9 4.89a1 1 0 0 0 1.42 1.42L12 13.41l4.89 4.9a1 1 0 0 0 1.42-1.42L13.41 12l4.89-4.89a1 1 0 0 0 0-1.4z"/>
@@ -170,129 +129,60 @@
     Salir
   </button>
 
-  <!-- Contenedor para la escena AR -->
   <div id="ar-container"></div>
 
-<script>
-  const info = document.getElementById('info');
-  const arContainer = document.getElementById('ar-container');
-  const exitBtn = document.getElementById('exit-ar');
+  <script>
+    const info = document.getElementById('info');
+    const arContainer = document.getElementById('ar-container');
+    const startBtn = document.getElementById('start-ar');
+    const exitBtn = document.getElementById('exit-ar');
 
-  // Modal
-  const modal = document.getElementById('modal-modelo');
-  const modalTitulo = document.getElementById('modal-titulo');
-  const modalDescripcion = document.getElementById('modal-descripcion');
-  const startBtn = document.getElementById('start-ar');
-  const cerrarModal = document.getElementById('cerrar-modal');
+    startBtn.addEventListener('click', () => {
+      info.style.display = 'none';
+      arContainer.style.display = 'block';
+      exitBtn.style.display = 'flex';
 
-  // Información de cada modelo
-  const modelosInfo = {
-    testiculo: {
-      titulo: "Modelo del Testículo",
-      descripcion: "No sé que poner"
-    },
-    engranes: {
-      titulo: "Modelo de Engranes",
-      descripcion: "Anane."
-    },
-    animacion: {
-      titulo: "Modelo Animado",
-      descripcion: "Todo eso."
-    }
-  };
+      const scene = document.createElement('a-scene');
+      scene.setAttribute('embedded', '');
+      scene.setAttribute('arjs', 'sourceType: webcam; debugUIEnabled: false;');
+      scene.setAttribute('gesture-detector', '');
 
-  // Cuando se da clic en un modelo
-  document.querySelectorAll('#menu-modelos button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const modelKey = btn.getAttribute('data-model');
-      const modelData = modelosInfo[modelKey];
-      modalTitulo.textContent = modelData.titulo;
-      modalDescripcion.textContent = modelData.descripcion;
-      modal.style.display = 'flex';
-
-      // Guardar modelo elegido
-      startBtn.dataset.model = modelKey;
-    });
-  });
-
-  // Cerrar modal
-  cerrarModal.addEventListener('click', () => {
-    modal.style.display = 'none';
-  });
-
-  // Iniciar AR al presionar el botón del modal
-  startBtn.addEventListener('click', () => {
-    modal.style.display = 'none';
-    info.style.display = 'none';
-    exitBtn.style.display = 'flex';
-    arContainer.style.display = 'block';
-
-    const modelKey = startBtn.dataset.model;
-
-    // Crear la escena AR
-    const scene = document.createElement('a-scene');
-    scene.setAttribute('embedded', '');
-    scene.setAttribute('arjs', '');
-    scene.setAttribute('gesture-detector', '');
-
-    // Seleccionar modelo según el elegido
-    let marker = document.createElement('a-marker');
-    let model = document.createElement('a-entity');
-
-    if (modelKey === "testiculo") {
+      const marker = document.createElement('a-marker');
       marker.setAttribute('type', 'pattern');
-      marker.setAttribute('url', 'markers/pattern-marcaT.patt');
+      marker.setAttribute('patternUrl', 'markers/pattern-marcaCreeper.patt');
+
+      const model = document.createElement('a-entity');
       model.setAttribute('gltf-model', 'models/embriologia/transparente.glb');
       model.setAttribute('scale', '0.2 0.2 0.2');
-      model.setAttribute('rotation', '90 0 180');
-    }
-    else if (modelKey === "engranes") {
-      marker.setAttribute('type', 'pattern');
-      marker.setAttribute('url', 'markers/pattern-marcaE.patt');
-      model.setAttribute('gltf-model', 'models/gears/gears.glb');
-      model.setAttribute('scale', '0.1 0.1 0.1');
-    }
-    else if (modelKey === "animacion") {
-      marker.setAttribute('type', 'pattern');
-      marker.setAttribute('url', 'markers/pattern-marcaCreeper.patt');
-      model.setAttribute('gltf-model', 'models/embriologia/Pruebas.glb');
-      model.setAttribute('position', '0 0 0');
       model.setAttribute('rotation', '0 0 0');
-      model.setAttribute('scale', '0.2 0.2 0.2');
-      model.setAttribute('animation-mixer', '');
-    }
+      model.setAttribute('position', '0 0 0');
+      model.setAttribute('gesture-handler', '');
 
-    model.setAttribute('gesture-handler', '');
-    marker.appendChild(model);
-    scene.appendChild(marker);
+      marker.appendChild(model);
+      scene.appendChild(marker);
 
-    const camera = document.createElement('a-entity');
-    camera.setAttribute('camera', '');
-    scene.appendChild(camera);
+      const camera = document.createElement('a-entity');
+      camera.setAttribute('camera', '');
+      scene.appendChild(camera);
 
-    arContainer.innerHTML = '';
-    arContainer.appendChild(scene);
-  });
+      arContainer.innerHTML = '';
+      arContainer.appendChild(scene);
+    });
 
-  // Botón para salir de AR
-  exitBtn.addEventListener('click', () => {
-    arContainer.style.display = 'none';
-    arContainer.innerHTML = '';
-    info.style.display = 'block';
-    exitBtn.style.display = 'none';
+    exitBtn.addEventListener('click', () => {
+      arContainer.style.display = 'none';
+      arContainer.innerHTML = '';
+      info.style.display = 'block';
+      exitBtn.style.display = 'none';
 
-    const video = document.querySelector('video');
-    if (video && video.srcObject) {
-      const stream = video.srcObject;
-      const tracks = stream.getTracks();
-      tracks.forEach(track => track.stop());
-      video.srcObject = null;
-    }
-
-    setTimeout(() => { window.location.reload(); }, 300);
-  });
-</script>
-
+      const video = document.querySelector('video');
+      if (video && video.srcObject) {
+        video.srcObject.getTracks().forEach(track => track.stop());
+        video.srcObject = null;
+      }
+    });
+  </script>
 
 </body>
 </html>
+
