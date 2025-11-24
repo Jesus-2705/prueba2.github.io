@@ -169,7 +169,8 @@
       model2.setAttribute('scale', '0.01 0.01 0.01');
       model2.setAttribute('rotation', '-90 0 0');
       model2.setAttribute('gesture-handler', '');
-      model2.setAttribute('animation-mixer', 'loop: repeat;');
+      model2.setAttribute('animation-mixer', 'loop: repeat; clip: *;');
+
       
       marker2.appendChild(model2);
       scene.appendChild(marker2);
