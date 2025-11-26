@@ -115,8 +115,7 @@
     </div>
     <h2>Museo de Embriología</h2>
     <h3>Universidad Autónoma de Chihuahua</h3>
-    <p>La embriología es el estudio del desarrollo del embrión desde la fecundación del óvulo hasta la octava semana de gestación...</p>
-    <p>Con esta aplicación usted podrá obtener una experiencia de realidad aumentada donde podrá ver modelos 3D de la espermatogénesis.</p>
+    <p>En esta página usted podrá ver modelos en realidad aumentada, por favor permita el acceso a la cámara.</p>
 
     <button id="start-ar">Iniciar AR</button>
   </div>
@@ -186,7 +185,19 @@
       arContainer.innerHTML = '';
       info.style.display = 'block';
       exitBtn.style.display = 'none';
-
+     const scene = document.querySelector('a-scene');
+      if (scene) {
+      scene.parentNode.removeChild(scene);
+      }
+      const canvases = document.querySelectorAll('canvas');
+      canvases.forEach(c => c.remove());
+    });
+      arContainer.innerHTML = '';
+      const video = document.querySelector('video');
+      if (video && video.srcObject) {
+        video.srcObject.getTracks().forEach(track => track.stop());
+        video.srcObject = null;
+      }
       const video = document.querySelector('video');
       if (video && video.srcObject) {
         video.srcObject.getTracks().forEach(track => track.stop());
