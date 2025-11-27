@@ -181,31 +181,27 @@
     });
 
     exitBtn.addEventListener('click', () => {
-      arContainer.style.display = 'none';
-      arContainer.innerHTML = '';
-      info.style.display = 'block';
-      exitBtn.style.display = 'none';
-     const scene = document.querySelector('a-scene');
-      if (scene) {
-      scene.parentNode.removeChild(scene);
-      }
-      const canvases = document.querySelectorAll('canvas');
-      canvases.forEach(c => c.remove());
-    });
-      arContainer.innerHTML = '';
-      const video = document.querySelector('video');
-      if (video && video.srcObject) {
-        video.srcObject.getTracks().forEach(track => track.stop());
-        video.srcObject = null;
-      }
-      const video = document.querySelector('video');
-      if (video && video.srcObject) {
-        video.srcObject.getTracks().forEach(track => track.stop());
-        video.srcObject = null;
-      }
-    });
-  </script>
+    // Ocultar AR y mostrar info
+    arContainer.style.display = 'none';
+    info.style.display = 'block';
+    exitBtn.style.display = 'none';
 
+    // Eliminar escena
+    const scene = document.querySelector('a-scene');
+    if (scene) scene.remove();
+
+    // Borrar canvas AR.js
+    const canvases = document.querySelectorAll('canvas');
+    canvases.forEach(c => c.remove());
+
+    // Apagar cámara
+    const video = document.querySelector('video');
+    if (video && video.srcObject) {
+      video.srcObject.getTracks().forEach(track => track.stop());
+      video.srcObject = null;
+    }
+  });
+</script>
 </body>
 </html>
 
